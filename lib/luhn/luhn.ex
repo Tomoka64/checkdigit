@@ -1,11 +1,17 @@
 defmodule Checkdigit.Luhn do
+  import Checkdigit.Helper
+
   @spec verify(String.t()) :: boolean
   def verify(code) when code == "", do: false
 
   def verify(code) do
-    check_digit = String.at(code, String.length(code)-1) |> String.to_integer
-    generated = String.slice(code, 0..-2) |> generate
-    generated == check_digit
+    if String.length(code) < 2 or !is_numeric(code) do
+      false
+    else
+      check_digit = String.at(code, String.length(code)-1) |> String.to_integer
+      generated = String.slice(code, 0..-2) |> generate
+      generated == check_digit
+    end
   end
 
   def generate(seed) when seed == "", do: 0

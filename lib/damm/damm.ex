@@ -1,4 +1,6 @@
 defmodule Checkdigit.Damm do
+  import Checkdigit.Helper
+
   @matrix %{
     0 => %{0 => 0, 1 => 3, 2 => 1, 3 => 7, 4 => 5, 5 => 9, 6 => 8, 7 => 6, 8 => 4, 9 => 2},
     1 => %{0 => 7, 1 => 0, 2 => 9, 3 => 2, 4 => 1, 5 => 5, 6 => 4, 7 => 8, 8 => 6, 9 => 3},
@@ -16,9 +18,13 @@ defmodule Checkdigit.Damm do
   def verify(code) when code == "", do: false
 
   def verify(code) do
-    check_digit = String.at(code, String.length(code)-1) |> String.to_integer
-    generated = String.slice(code, 0..-2) |> generate
-    generated == check_digit
+    if String.length(code) < 2 or !is_numeric(code) do
+      false
+    else
+      check_digit = String.at(code, String.length(code)-1) |> String.to_integer
+      generated = String.slice(code, 0..-2) |> generate
+      generated == check_digit
+    end
   end
 
   def generate(seed) when seed == "", do: 0

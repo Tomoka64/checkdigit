@@ -22,4 +22,8 @@ defmodule Checkdigit.LuhnTest do
   test "Luhn: irregular 2" do
     assert Luhn.verify("") == false
   end
+
+  test "Luhn: irregular 3" do
+    assert Luhn.verify("111a") == false
+  end
 end
